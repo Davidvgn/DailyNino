@@ -1,0 +1,26 @@
+{
+  "comment": "Sample data for duration video values",
+  "data": [
+    {
+      "duration": "1s"
+    },
+    {
+      "duration": "7s"
+    },
+    {
+      "duration": "38s"
+    },
+    {
+      "duration": "01:24"
+    },
+    {
+      "duration": "22:49"
+    },
+    {
+      "duration": "1:08:03"
+    },
+    {
+      "duration": "17:00:37"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "comment": "Sample data for created_at video values",
+  "data": [
+    {
+      "created_at": "Il y a 1 seconde"
+    },
+    {
+      "created_at": "Il y a 7 secondes"
+    },
+    {
+      "created_at": "Il y a 49 secondes"
+    },
+    {
+      "created_at": "Il y a 1 minute"
+    },
+    {
+      "created_at": "Il y a 44 minutes"
+    },
+    {
+      "created_at": "Il y a 1 heure"
+    },
+    {
+      "created_at": "Il y a 9 heures"
+    },
+    {
+      "created_at": "Il y a 23 heures"
+    },
+    {
+      "created_at": "Lundi dernier"
+    },
+    {
+      "created_at": "Mardi dernier"
+    },
+    {
+      "created_at": "Mercredi dernier"
+    },
+    {
+      "created_at": "Jeudi dernier"
+    },
+    {
+      "created_at": "Vendredi dernier"
+    },
+    {
+      "created_at": "Samedi dernier"
+    },
+    {
+      "created_at": "Dimanche dernier"
+    },
+    {
+      "created_at": "26/02/2023"
+    },
+    {
+      "created_at": "09/10/2010"
+    }
+  ]
+}

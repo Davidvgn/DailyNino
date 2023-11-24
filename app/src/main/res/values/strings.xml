@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name" translatable="false">DailyNino</string>
+
+    <string name="video_duration_seconds" translatable="false">%ds</string>
+    <string name="video_duration_minutes" translatable="false">%02d:%02d</string>
+    <string name="video_duration_hours" translatable="false">%d:%02d:%02d</string>
+
+    <plurals name="delta_seconds">
+        <item quantity="one">%d second ago</item>
+        <item quantity="other">%d seconds ago</item>
+    </plurals>
+    <plurals name="delta_minutes">
+        <item quantity="one">%d minute ago</item>
+        <item quantity="other">%d minutes ago</item>
+    </plurals>
+    <plurals name="delta_hours">
+        <item quantity="one">%d hour ago</item>
+        <item quantity="other">%d hours ago</item>
+    </plurals>
+    <string name="last_weekday">last %s</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sunday">Sunday</string>
+
+    <string name="video_created_at_date_time_formatter">MM-dd-YYYY</string>
+
+    <string name="error_no_internet_connection">Can\'t reach servers, are you connected to the internet ?</string>
+</resources>

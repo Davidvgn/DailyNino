@@ -1,0 +1,29 @@
+<resources>
+    <plurals name="delta_seconds">
+        <item quantity="one">Il y a %d seconde</item>
+        <item quantity="many">Il y a %d secondes</item>
+        <item quantity="other">Il y a %d secondes</item>
+    </plurals>
+    <plurals name="delta_minutes">
+        <item quantity="one">Il y a %d minute</item>
+        <item quantity="many">Il y a %d minutes</item>
+        <item quantity="other">Il y a %d minutes</item>
+    </plurals>
+    <plurals name="delta_hours">
+        <item quantity="one">Il y a %d heure</item>
+        <item quantity="many">Il y a %d heures</item>
+        <item quantity="other">Il y a %d heures</item>
+    </plurals>
+    <string name="last_weekday">%s dernier</string>
+    <string name="monday">Lundi</string>
+    <string name="tuesday">Mardi</string>
+    <string name="wednesday">Mercredi</string>
+    <string name="thursday">Jeudi</string>
+    <string name="friday">Vendredi</string>
+    <string name="saturday">Samedi</string>
+    <string name="sunday">Dimanche</string>
+
+    <string name="video_created_at_date_time_formatter">dd/MM/YYYY</string>
+
+    <string name="error_no_internet_connection">Nous ne pouvons pas contacter les serveurs DailyMotion, avez vous vérifié votre connexion internet ?</string>
+</resources>
