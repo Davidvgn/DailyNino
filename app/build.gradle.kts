@@ -68,6 +68,10 @@ dependencies {
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
+    val mediaVersion = "1.2.0"
+    implementation("androidx.media3:media3-exoplayer:$mediaVersion")
+    implementation("androidx.media3:media3-ui:$mediaVersion")
+
     testImplementation("androidx.arch.core:core-testing:2.1.0") {
         // Removes the Mockito dependency bundled with arch core (wtf android ??)
         exclude("org.mockito", "mockito-core")

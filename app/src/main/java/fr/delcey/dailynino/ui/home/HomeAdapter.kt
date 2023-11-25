@@ -56,6 +56,9 @@ class HomeAdapter : ListAdapter<HomeViewState, RecyclerView.ViewHolder>(HomeDiff
             binding.homeItemTextViewTitle.setText(item.title)
             binding.homeItemTextViewDescription.setTextOrHide(item.description)
             binding.homeItemTextViewCreatedAt.setText(item.createdAt)
+            binding.homeItemMaterialCardView.setOnClickListener {
+                item.onClicked()
+            }
         }
     }
 

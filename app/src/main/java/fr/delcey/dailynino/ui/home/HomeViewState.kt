@@ -1,5 +1,6 @@
 package fr.delcey.dailynino.ui.home
 
+import fr.delcey.dailynino.ui.utils.EquatableCallback
 import fr.delcey.dailynino.ui.utils.NativeText
 
 sealed class HomeViewState(val type: HomeViewStateType) {
@@ -17,6 +18,7 @@ sealed class HomeViewState(val type: HomeViewStateType) {
         val duration: NativeText?,
         val thumbnailUrl: String,
         val createdAt: NativeText,
+        val onClicked: EquatableCallback,
     ) : HomeViewState(HomeViewStateType.VIDEO)
 
     data object Error : HomeViewState(HomeViewStateType.ERROR)

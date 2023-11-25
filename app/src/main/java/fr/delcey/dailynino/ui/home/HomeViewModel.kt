@@ -10,7 +10,11 @@ import fr.delcey.dailynino.domain.paging_video.IncreaseCurrentVideoPageUseCase
 import fr.delcey.dailynino.domain.paging_video.ResetVideoPageUseCase
 import fr.delcey.dailynino.domain.video.GetPagedVideosUseCase
 import fr.delcey.dailynino.domain.video.model.PagedVideosEntity
+import fr.delcey.dailynino.ui.utils.EquatableCallback
+import fr.delcey.dailynino.ui.utils.Event
 import fr.delcey.dailynino.ui.utils.NativeText
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.ZonedDateTime
@@ -29,11 +33,23 @@ class HomeViewModel @Inject constructor(
     private val resetVideoPageUseCase: ResetVideoPageUseCase,
 ) : ViewModel() {
 
+    // The wrapped String (videoId or whatever else) could be used if needed
+    private val clickedVideoIdMutableSharedFlow = MutableSharedFlow<String>(
+        extraBufferCapacity = 1,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST,
+    )
+
     val viewStateLiveData: LiveData<List<HomeViewState>> = liveData {
         getPagedVideosUseCase.invoke().collect { pagedVideos ->
             emit(
                 map(pagedVideos)
             )
+        }
+    }
+
+    val viewEventLiveData: LiveData<Event<HomeViewEvent>> = liveData {
+        clickedVideoIdMutableSharedFlow.collect {
+            emit(Event(HomeViewEvent.PlayVideo("https://storage.googleapis.com/exoplayer-test-media-0/BigBuckBunny_320x180.mp4")))
         }
     }
 
@@ -62,6 +78,9 @@ class HomeViewModel @Inject constructor(
                             duration = mapDuration(video.duration),
                             thumbnailUrl = video.thumbnailUrl,
                             createdAt = mapCreatedAt(video.createdAt),
+                            onClicked = EquatableCallback {
+                                clickedVideoIdMutableSharedFlow.tryEmit(video.id)
+                            },
                         )
                     )
                 }

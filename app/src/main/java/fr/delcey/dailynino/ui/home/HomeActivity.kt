@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import fr.delcey.dailynino.databinding.HomeActivityBinding
+import fr.delcey.dailynino.ui.player.PlayerActivity
+import fr.delcey.dailynino.ui.utils.Event.Companion.observeEvent
 import fr.delcey.dailynino.ui.utils.InfiniteScrollListener
 import fr.delcey.dailynino.ui.utils.viewBinding
 
@@ -44,6 +46,12 @@ class HomeActivity : AppCompatActivity() {
         viewModel.viewStateLiveData.observe(this) {
             adapter.submitList(it)
             binding.homeSwipeRefreshLayout.isRefreshing = false
+        }
+
+        viewModel.viewEventLiveData.observeEvent(this) {
+            when (it) {
+                is HomeViewEvent.PlayVideo -> startActivity(PlayerActivity.navigate(this, it.streamUrl))
+            }
         }
     }
 }
