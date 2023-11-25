@@ -6,7 +6,8 @@ sealed class HomeViewState(val type: HomeViewStateType) {
 
     enum class HomeViewStateType {
         VIDEO,
-        ERROR
+        ERROR,
+        LOADING_FOOTER,
     }
 
     data class Video(
@@ -19,4 +20,6 @@ sealed class HomeViewState(val type: HomeViewStateType) {
     ) : HomeViewState(HomeViewStateType.VIDEO)
 
     data object Error : HomeViewState(HomeViewStateType.ERROR)
+
+    data object LoadingFooter : HomeViewState(HomeViewStateType.LOADING_FOOTER)
 }

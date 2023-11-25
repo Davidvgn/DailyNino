@@ -3,11 +3,15 @@ package fr.delcey.dailynino.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.delcey.dailynino.R
-import fr.delcey.dailynino.domain.video.GetVideosUseCase
-import fr.delcey.dailynino.domain.video.model.VideoEntity
+import fr.delcey.dailynino.domain.paging_video.IncreaseCurrentVideoPageUseCase
+import fr.delcey.dailynino.domain.paging_video.ResetVideoPageUseCase
+import fr.delcey.dailynino.domain.video.GetPagedVideosUseCase
+import fr.delcey.dailynino.domain.video.model.PagedVideosEntity
 import fr.delcey.dailynino.ui.utils.NativeText
+import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
@@ -20,30 +24,54 @@ import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getVideosUseCase: GetVideosUseCase,
+    private val getPagedVideosUseCase: GetPagedVideosUseCase,
+    private val increaseCurrentVideoPageUseCase: IncreaseCurrentVideoPageUseCase,
+    private val resetVideoPageUseCase: ResetVideoPageUseCase,
 ) : ViewModel() {
 
     val viewStateLiveData: LiveData<List<HomeViewState>> = liveData {
-        emit(
-            map(getVideosUseCase.invoke())
-        )
+        getPagedVideosUseCase.invoke().collect { pagedVideos ->
+            emit(
+                map(pagedVideos)
+            )
+        }
     }
 
-    private fun map(videos: List<VideoEntity>?): List<HomeViewState> =
-        if (videos.isNullOrEmpty()) {
+    fun onFooterReached() {
+        increaseCurrentVideoPageUseCase.invoke()
+    }
+
+    fun onPullToRefresh() {
+        viewModelScope.launch {
+            resetVideoPageUseCase.invoke()
+        }
+    }
+
+    private fun map(pagedVideosEntity: PagedVideosEntity): List<HomeViewState> = when (pagedVideosEntity) {
+        is PagedVideosEntity.Failure -> listOf(HomeViewState.Error)
+        is PagedVideosEntity.Success -> if (pagedVideosEntity.videos.isNullOrEmpty()) {
             listOf(HomeViewState.Error)
         } else {
-            videos.map { video ->
-                HomeViewState.Video(
-                    id = video.id,
-                    title = NativeText.Simple(video.title),
-                    description = NativeText.Simple(video.description),
-                    duration = mapDuration(video.duration),
-                    thumbnailUrl = video.thumbnailUrl,
-                    createdAt = mapCreatedAt(video.createdAt),
-                )
+            buildList {
+                pagedVideosEntity.videos.forEach { video ->
+                    add(
+                        HomeViewState.Video(
+                            id = video.id,
+                            title = NativeText.Simple(video.title),
+                            description = NativeText.Html(video.description),
+                            duration = mapDuration(video.duration),
+                            thumbnailUrl = video.thumbnailUrl,
+                            createdAt = mapCreatedAt(video.createdAt),
+                        )
+                    )
+                }
+
+                if (pagedVideosEntity.hasMore) {
+                    add(HomeViewState.LoadingFooter)
+                }
             }
         }
+    }
 
     private fun mapDuration(duration: Duration?): NativeText? = when {
         duration == null -> null

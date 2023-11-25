@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import fr.delcey.dailynino.databinding.HomeErrorItemBinding
+import fr.delcey.dailynino.databinding.HomeLoadingFooterItemBinding
 import fr.delcey.dailynino.databinding.HomeVideoItemBinding
 import fr.delcey.dailynino.ui.utils.setText
 import fr.delcey.dailynino.ui.utils.setTextOrHide
@@ -28,12 +29,21 @@ class HomeAdapter : ListAdapter<HomeViewState, RecyclerView.ViewHolder>(HomeDiff
                     false
                 ).root
             ) {}
+            HomeViewState.HomeViewStateType.LOADING_FOOTER -> object : RecyclerView.ViewHolder(
+                HomeLoadingFooterItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                ).root
+            ) {}
         }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = getItem(position)) {
             is HomeViewState.Video -> (holder as HomeVideoViewHolder).bind(item)
-            is HomeViewState.Error -> Unit // No binding necessary
+            // No binding necessary
+            is HomeViewState.Error,
+            is HomeViewState.LoadingFooter -> Unit
         }
     }
 
@@ -53,6 +63,7 @@ class HomeAdapter : ListAdapter<HomeViewState, RecyclerView.ViewHolder>(HomeDiff
         override fun areItemsTheSame(oldItem: HomeViewState, newItem: HomeViewState): Boolean =
             oldItem.type == newItem.type &&
                 (oldItem.type == HomeViewState.HomeViewStateType.ERROR ||
+                    oldItem.type == HomeViewState.HomeViewStateType.LOADING_FOOTER ||
                     (oldItem as HomeViewState.Video).id == (newItem as HomeViewState.Video).id)
 
         override fun areContentsTheSame(oldItem: HomeViewState, newItem: HomeViewState): Boolean =

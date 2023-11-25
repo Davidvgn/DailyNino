@@ -2,7 +2,7 @@ package fr.delcey.dailynino.data.dailymotion.model
 
 import com.google.gson.annotations.SerializedName
 
-data class VideosDto(
+data class PagedVideosDto(
 
     @field:SerializedName("explicit")
     val explicit: Boolean?,
