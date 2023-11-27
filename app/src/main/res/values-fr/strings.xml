@@ -14,6 +14,8 @@
         <item quantity="many">Il y a %d heures</item>
         <item quantity="other">Il y a %d heures</item>
     </plurals>
+    <string name="yesterday">Hier</string>
+    <string name="the_day_before_yesterday">Avant-hier</string>
     <string name="last_weekday">%s dernier</string>
     <string name="monday">Lundi</string>
     <string name="tuesday">Mardi</string>

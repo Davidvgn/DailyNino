@@ -17,6 +17,8 @@
         <item quantity="one">%d hour ago</item>
         <item quantity="other">%d hours ago</item>
     </plurals>
+    <string name="yesterday">Yesterday</string>
+    <string name="the_day_before_yesterday">The day before yesterday</string>
     <string name="last_weekday">last %s</string>
     <string name="monday">Monday</string>
     <string name="tuesday">Tuesday</string>

@@ -79,4 +79,47 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("junit:junit:4.13.2")
     testImplementation("io.mockk:mockk:1.13.4")
+    testImplementation("org.slf4j:slf4j-nop:2.0.9") // To avoid the stupid "SLF4J: No SLF4J providers were found." message from MockK
+    testImplementation("app.cash.turbine:turbine:1.0.0")
+}
+
+koverReport {
+    filters {
+        excludes {
+            annotatedBy(
+                "dagger.Module",
+                "dagger.internal.DaggerGenerated",
+                "androidx.room.Database",
+            )
+            packages(
+                "hilt_aggregated_deps", // Hilt: GeneratedInjectors (NOT annotated by DaggerGenerated)
+                "fr.delcey.dailynino.databinding", // ViewBinding
+            )
+            classes(
+                // Hilt
+                // Delete when this is fixed: https://github.com/Kotlin/kotlinx-kover/issues/331
+                "*_*Factory\$*",
+
+                // Gradle Generated
+                "fr.delcey.dailynino.BuildConfig",
+
+                // Delete when this is fixed: https://github.com/Kotlin/kotlinx-kover/issues/331
+                "*AppDatabase\$*",
+
+
+                // Utils
+                "fr.delcey.dailynino.ui.utils*",
+
+                // Remove below when Kover can handle Android integration tests!
+                "*MainApplication",
+                "*MainApplication\$*",
+                "*Fragment",
+                "*Fragment\$*",
+                "*Activity",
+                "*Activity\$*",
+                "*Adapter",
+                "*Adapter\$*",
+            )
+        }
+    }
 }

@@ -16,6 +16,7 @@ import fr.delcey.dailynino.ui.utils.NativeText
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
+import java.time.Clock
 import java.time.DayOfWeek
 import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
@@ -31,6 +32,7 @@ class HomeViewModel @Inject constructor(
     private val getPagedVideosUseCase: GetPagedVideosUseCase,
     private val increaseCurrentVideoPageUseCase: IncreaseCurrentVideoPageUseCase,
     private val resetVideoPageUseCase: ResetVideoPageUseCase,
+    private val clock: Clock,
 ) : ViewModel() {
 
     // The wrapped String (videoId or whatever else) could be used if needed
@@ -88,7 +90,7 @@ class HomeViewModel @Inject constructor(
                 if (pagedVideosEntity.hasMore) {
                     add(HomeViewState.LoadingFooter)
                 }
-            }
+            }.toList()
         }
     }
 
@@ -111,7 +113,7 @@ class HomeViewModel @Inject constructor(
 
     @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
     private fun mapCreatedAt(videoCreatedAt: ZonedDateTime): NativeText {
-        val delta = ChronoUnit.SECONDS.between(videoCreatedAt, ZonedDateTime.now()).seconds
+        val delta = ChronoUnit.SECONDS.between(videoCreatedAt, ZonedDateTime.now(clock)).seconds
 
         return when {
             delta < 1.minutes -> {
@@ -138,6 +140,8 @@ class HomeViewModel @Inject constructor(
                     args = listOf(hours),
                 )
             }
+            delta < 2.days -> NativeText.Resource(id = R.string.yesterday)
+            delta < 3.days -> NativeText.Resource(id = R.string.the_day_before_yesterday)
             delta < 7.days -> {
                 NativeText.Argument(
                     id = R.string.last_weekday,
